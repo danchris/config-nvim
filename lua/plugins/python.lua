@@ -1,0 +1,74 @@
+return {
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        pyright = {},
+        ruff_lsp = {
+          keys = {
+            {
+              "<leader>co",
+              function()
+                vim.lsp.buf.code_action({
+                  apply = true,
+                  context = {
+                    only = { "source.organizeImports" },
+                    diagnostics = {},
+                  },
+                })
+              end,
+              desc = "Organize Imports",
+            },
+          },
+        },
+      },
+      setup = {
+        ruff_lsp = function()
+          require("lazyvim.util").lsp.on_attach(function(client, _)
+            if client.name == "ruff_lsp" then
+              -- Disable hover in favor of Pyright
+              client.server_capabilities.hoverProvider = false
+            end
+          end)
+        end,
+      },
+    },
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function(_, opts)
+      if type(opts.ensure_installed) == "table" then
+        vim.list_extend(opts.ensure_installed, { "ninja", "python", "rst", "toml" })
+      end
+    end,
+  },
+  {
+    "linux-cultist/venv-selector.nvim",
+    dependencies = { "neovim/nvim-lspconfig", "nvim-telescope/telescope.nvim", "mfussenegger/nvim-dap-python" },
+    opts = {
+      names = {
+        ".venv",
+        ".env",
+        "venv",
+        "env",
+      },
+      parents = 1,
+      -- Your options go here
+      -- name = "venv",
+      -- auto_refresh = false
+    },
+    event = "VeryLazy", -- Optional: needed only if you want to type `:VenvSelect` without a keymapping
+    keys = {
+      -- Keymap to open VenvSelector to pick a venv.
+      { "<leader>vs", "<cmd>VenvSelect<cr>" },
+      -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
+      { "<leader>vc", "<cmd>VenvSelectCached<cr>" },
+    },
+  },
+  {
+    "williamboman/mason.nvim",
+    opts = function(_, opts)
+      table.insert(opts.ensure_installed, "black")
+    end,
+  },
+}
