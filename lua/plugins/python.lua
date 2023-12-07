@@ -52,7 +52,7 @@ return {
         "venv",
         "env",
       },
-      parents = 1,
+      parents = 0,
       -- Your options go here
       -- name = "venv",
       -- auto_refresh = false
