@@ -3,7 +3,26 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        pyright = {},
+        pyright = {
+          handlers = {
+            ["textDocument/publishDiagnostics"] = function() end,
+          },
+          on_attach = function(client, _)
+            client.server_capabilities.codeActionProvider = false
+          end,
+          settings = {
+            pyright = {
+              disableOrganizeImports = true,
+            },
+            python = {
+              analysis = {
+                autoSearchPaths = true,
+                typeCheckingMode = "basic",
+                useLibraryCodeForTypes = true,
+              },
+            },
+          },
+        },
         ruff_lsp = {
           keys = {
             {
