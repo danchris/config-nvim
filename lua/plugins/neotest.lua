@@ -3,6 +3,7 @@ return {
     "nvim-neotest/neotest",
     dependencies = {
       "nvim-neotest/neotest-python",
+      "nvim-neotest/neotest-go",
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
@@ -33,6 +34,10 @@ return {
           -- !!EXPERIMENTAL!! Enable shelling out to `pytest` to discover test
           -- instances for files containing a parametrize mark (default: false)
           -- pytest_discover_instances = false,
+        },
+        ["neotest-go"] = {
+          experimental = { test_table = true },
+          args = { "-tags=integration" },
         },
       },
       -- Example for loading neotest-go with a custom config
