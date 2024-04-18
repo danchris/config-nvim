@@ -5,6 +5,10 @@ Refer to the [documentation](https://lazyvim.github.io/installation) to get star
 
 ## Prerequisites
 
+- Neovim >= 0.9.0
+- Git >= 2.19.0
+- a NerdFont
+- gcc
 - nodejs
 - lazygit
 - fd-find
