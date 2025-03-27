@@ -7,7 +7,18 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     config = function()
-      require("go").setup({})
+      require("go").setup({
+        null_ls = {
+          golangci_lint = {
+            -- disable = {'errcheck', 'staticcheck'}, -- linters to disable empty by default
+            -- enable = {'govet', 'ineffassign','revive', 'gosimple'}, -- linters to enable; empty by default
+            severity = vim.diagnostic.severity.INFO, -- severity level of the diagnostics
+          },
+        },
+      })
+    vim.cmd(
+      [[command! GoLint :setl makeprg=golangci-lint\ run\ --output.text.print-issued-lines=false\ --output.text.print-linter-name| :GoMake]]
+    )
     end,
     event = { "CmdlineEnter" },
     ft = { "go", "gomod" },
